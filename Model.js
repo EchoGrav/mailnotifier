@@ -40,6 +40,26 @@ function relativeTime(timestamp, now) {
   return Math.floor(hours / 24) + "d ago"
 }
 
+var AVATAR_PALETTE = [
+  "#e07a5f", "#3d9a74", "#5b7fbf", "#c9963c", "#8e6bb0",
+  "#4f9da6", "#c1547a", "#6b9e3f", "#b0763f", "#5f6bc9"
+]
+
+function initials(name) {
+  var trimmed = String(name || "").trim()
+  if (!trimmed) return "?"
+  var parts = trimmed.split(/\s+/).filter(function(p) { return p.length > 0 })
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase()
+  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
+}
+
+function avatarColor(key) {
+  var text = String(key || "")
+  var hash = 0
+  for (var i = 0; i < text.length; i++) hash = (hash * 31 + text.charCodeAt(i)) | 0
+  return AVATAR_PALETTE[Math.abs(hash) % AVATAR_PALETTE.length]
+}
+
 function errorSummary(error) {
   if (!error) return ""
   if (error.kind === "auth") return "Sign-in failed — check the stored app password"
