@@ -8,6 +8,9 @@ desktop notifications when new mail actually arrives.
 It exists because leaving the Fastmail web app open in a background tab
 doesn't refresh the inbox until that tab has focus.
 
+![OmaFMail unread message popup](preview.png)
+![OmaFMail new-mail notification](preview-notification.png)
+
 ## Current features
 
 - Persistent IMAP IDLE connection: near-instant notification of new mail,

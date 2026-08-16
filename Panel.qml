@@ -257,6 +257,7 @@ Panel {
           Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
             text: "Click a message to open Fastmail · right-click the bar icon to reconnect"
             color: Qt.darker(root.bar ? root.bar.foreground : Color.foreground, 1.45)
             font.family: root.bar ? root.bar.fontFamily : Style.font.family
