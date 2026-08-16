@@ -243,8 +243,15 @@ Item {
       onRead: function(line) { console.warn("omafmail(stderr):", line) }
     }
     onExited: function(exitCode) {
-      if (root.connectionState !== "error") root.connectionState = "error"
-      if (!root.lastError) root.lastError = { kind: "network", message: "watcher exited (code " + exitCode + ")" }
+      if (root.manualReconnectRequested) {
+        // Deliberate kill-to-restart (config reload or a user-triggered
+        // reconnect) — not a real error, so don't flash "connection lost".
+        root.connectionState = "connecting"
+        root.lastError = null
+      } else {
+        root.connectionState = "error"
+        if (!root.lastError) root.lastError = { kind: "network", message: "watcher exited (code " + exitCode + ")" }
+      }
       root.scheduleRestart()
     }
   }
