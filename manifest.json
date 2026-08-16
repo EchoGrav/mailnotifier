@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.keithnyc.omafmail",
+  "name": "OmaFMail",
+  "version": "0.1.0",
+  "author": "Keith",
+  "license": "MIT",
+  "description": "Fastmail unread mail alerts and preview in the Omarchy bar",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "OmaFMail",
+    "description": "Unread Fastmail count with a sender/subject/preview popup",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
