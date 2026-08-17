@@ -2,10 +2,23 @@
 
 > This is a fork of [OmaFMail](https://github.com/keithnyc/omafmail) by
 > [Keith](https://github.com/keithnyc), originally licensed under the MIT
-> License (see [LICENSE](LICENSE)). Changes in this fork: the bar widget
-> now hides itself when there's nothing to show, opening a message opens
-> your system's default mail client's main window instead of a hardcoded
-> browser tab or app, and clicking a desktop notification does the same.
+> License (see [LICENSE](LICENSE)). Renamed from OmaFMail to MailNotifier
+> (plugin id `io.github.EchoGrav.mailnotifier`). Changes from upstream:
+>
+> - The bar widget now hides itself entirely (zero width/height, not
+>   just visually inactive) when there's no unread mail and no error,
+>   instead of always showing an inactive icon.
+> - The unread-count label's `active` state is now always `false`, and
+>   its foreground color turns red on error, otherwise matches the bar's
+>   default foreground.
+> - Clicking a message in the popup, or clicking a desktop notification,
+>   now opens your system's default mail client's main window (resolved
+>   via `xdg-mime`, launched without arguments so it doesn't open a
+>   compose window), instead of a hardcoded `thunderbird` call / opening
+>   Fastmail's web inbox in a browser.
+> - New file `scripts/open_mail_client.sh` implementing that resolution
+>   and launch logic, with a fallback to Fastmail's web inbox if no
+>   default handler can be found.
 
 MailNotifier is an Omarchy shell plugin that watches a Fastmail (or other
 IMAP) mailbox over a persistent IMAP IDLE connection and shows unread
