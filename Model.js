@@ -15,7 +15,7 @@ function normalizeConfig(raw) {
   var host = String(raw.host || "").trim()
   if (!host) throw new Error("config needs a 'host' (e.g. imap.fastmail.com)")
 
-  var secretService = String(raw.secretService || "omafmail").trim()
+  var secretService = String(raw.secretService || "mailnotifier").trim()
   if (!secretService) throw new Error("'secretService' cannot be empty")
 
   return {

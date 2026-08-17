@@ -192,7 +192,7 @@ def run(config: dict) -> int:
     port = int(config.get("port", 993))
     mailbox = str(config.get("mailbox", "INBOX"))
     account = str(config["account"])
-    secret_service = str(config.get("secretService", "omafmail"))
+    secret_service = str(config.get("secretService", "mailnotifier"))
     fetch_limit = int(config.get("fetchLimit", 20))
 
     try:

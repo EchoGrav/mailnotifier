@@ -9,8 +9,8 @@ Item {
   property var shell: null
   property var manifest: null
   readonly property string home: Quickshell.env("HOME")
-  readonly property string configPath: home + "/.config/omafmail/config.json"
-  readonly property string stateDir: home + "/.local/state/omafmail"
+  readonly property string configPath: home + "/.config/mailnotifier/config.json"
+  readonly property string stateDir: home + "/.local/state/mailnotifier"
   readonly property string statePath: stateDir + "/state.json"
   readonly property string watcherScriptPath: manifest && manifest.__sourceDir
     ? manifest.__sourceDir + "/scripts/idle_watcher.py"
@@ -79,7 +79,7 @@ Item {
     } catch (error) {
       root.config = null
       root.configError = String(error)
-      console.warn("omafmail: config error:", root.configError)
+      console.warn("mailnotifier: config error:", root.configError)
     }
     root.configReady = true
     root.consecutiveFailures = 0
@@ -97,7 +97,7 @@ Item {
       var parsed = JSON.parse(String(raw || "{}"))
       if (parsed && parsed.knownIds && typeof parsed.knownIds === "object") stored = parsed.knownIds
     } catch (error) {
-      console.warn("omafmail: state error:", String(error))
+      console.warn("mailnotifier: state error:", String(error))
     }
     root.knownIds = stored
     root.hasPersistedBaseline = true
@@ -130,7 +130,7 @@ Item {
       // action rather than losing the earlier one's action handling.
       Quickshell.execDetached([
         "omarchy-notification-send",
-        "--app-name", "omafmail",
+        "--app-name", "mailnotifier",
         "--urgency", urgency,
         "--glyph", glyph,
         title,
@@ -140,7 +140,7 @@ Item {
     }
     notifyProcess.command = [
       "omarchy-notification-send",
-      "--app-name", "omafmail",
+      "--app-name", "mailnotifier",
       "--urgency", urgency,
       "--glyph", glyph,
       "--action", "default=Open",
@@ -185,7 +185,7 @@ Item {
     try {
       event = JSON.parse(line)
     } catch (error) {
-      console.warn("omafmail: unreadable watcher output:", line)
+      console.warn("mailnotifier: unreadable watcher output:", line)
       return
     }
     if (event.type === "status" && event.state === "connected") {
@@ -200,7 +200,7 @@ Item {
     } else if (event.type === "error") {
       root.lastError = { kind: String(event.kind || "network"), message: String(event.message || "") }
       root.connectionState = "error"
-      console.warn("omafmail:", root.lastError.kind, root.lastError.message)
+      console.warn("mailnotifier:", root.lastError.kind, root.lastError.message)
     }
   }
 
@@ -282,7 +282,7 @@ Item {
       onRead: function(line) { root.handleLine(line) }
     }
     stderr: SplitParser {
-      onRead: function(line) { console.warn("omafmail(stderr):", line) }
+      onRead: function(line) { console.warn("mailnotifier(stderr):", line) }
     }
     onExited: function(exitCode) {
       if (root.manualReconnectRequested) {

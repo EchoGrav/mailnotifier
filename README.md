@@ -15,7 +15,13 @@
 >   now opens your system's default mail client's main window (resolved
 >   via `xdg-mime`, launched without arguments so it doesn't open a
 >   compose window), instead of a hardcoded `thunderbird` call / opening
->   Fastmail's web inbox in a browser.
+>   Fastmail's web inbox in a browser. The popup's footer hint text was
+>   updated to match ("open your mail client" instead of "open
+>   Fastmail").
+> - Config, state, and keyring paths/identifiers renamed to match:
+>   config now lives at `~/.config/mailnotifier/config.json`, state at
+>   `~/.local/state/mailnotifier/`, and the default `secretService` /
+>   notification app-name is now `mailnotifier` instead of `omafmail`.
 > - New file `scripts/open_mail_client.sh` implementing that resolution
 >   and launch logic, with a fallback to Fastmail's web inbox if no
 >   default handler can be found.
@@ -79,7 +85,7 @@ omarchy plugin enable io.github.EchoGrav.mailnotifier right
 2. Store it in the system keyring — nothing else reads or writes this:
 
    ```bash
-   secret-tool store --label="MailNotifier: you@fastmail.com" service omafmail account you@fastmail.com
+   secret-tool store --label="MailNotifier: you@fastmail.com" service mailnotifier account you@fastmail.com
    ```
 
    You'll be prompted to paste the app password. `secret-tool` needs a
@@ -89,25 +95,25 @@ omarchy plugin enable io.github.EchoGrav.mailnotifier right
 3. Create your configuration:
 
    ```bash
-   mkdir -p ~/.config/omafmail
+   mkdir -p ~/.config/mailnotifier
    cp ~/.config/omarchy/plugins/io.github.EchoGrav.mailnotifier/config.example.json \
-     ~/.config/omafmail/config.json
+     ~/.config/mailnotifier/config.json
    ```
 
-   Edit `~/.config/omafmail/config.json` with your Fastmail address. The
+   Edit `~/.config/mailnotifier/config.json` with your Fastmail address. The
    `account` and `secretService` values must match what you used with
    `secret-tool store` above.
 
 ## Configuration
 
-MailNotifier watches `~/.config/omafmail/config.json` and reconnects
+MailNotifier watches `~/.config/mailnotifier/config.json` and reconnects
 automatically when it changes.
 
 - `account`: your Fastmail email address (also the `secret-tool` lookup key)
 - `host`: IMAP host, default `imap.fastmail.com`
 - `port`: IMAP port, default `993`
 - `mailbox`: mailbox to watch, default `INBOX`
-- `secretService`: the `service` attribute used with `secret-tool`, default `omafmail`
+- `secretService`: the `service` attribute used with `secret-tool`, default `mailnotifier`
 - `fetchLimit`: max unread messages to fetch/display, default `20`
 
 ## Dependencies
@@ -130,17 +136,17 @@ Removal leaves your configuration, keyring entry, and local state intact.
 If you no longer want that data:
 
 ```bash
-rm -rf ~/.config/omafmail ~/.local/state/omafmail
-secret-tool clear service omafmail account you@fastmail.com
+rm -rf ~/.config/mailnotifier ~/.local/state/mailnotifier
+secret-tool clear service mailnotifier account you@fastmail.com
 ```
 
 ## Privacy
 
 MailNotifier connects to your IMAP server directly from your computer.
-Configuration lives in `~/.config/omafmail/config.json` (no secrets);
+Configuration lives in `~/.config/mailnotifier/config.json` (no secrets);
 the app password lives only in your system keyring; a small state file
 recording which message IDs you've already seen (used to avoid
-re-notifying on reconnect) lives in `~/.local/state/omafmail/state.json`.
+re-notifying on reconnect) lives in `~/.local/state/mailnotifier/state.json`.
 None of this belongs in this repository.
 
 ## Limitations

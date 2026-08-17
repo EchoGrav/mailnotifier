@@ -3,6 +3,6 @@
   "host": "imap.fastmail.com",
   "port": 993,
   "mailbox": "INBOX",
-  "secretService": "omafmail",
+  "secretService": "mailnotifier",
   "fetchLimit": 20
 }
