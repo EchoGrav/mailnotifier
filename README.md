@@ -3,7 +3,7 @@
 > This is a fork of [OmaFMail](https://github.com/keithnyc/omafmail) by
 > [Keith](https://github.com/keithnyc), originally licensed under the MIT
 > License (see [LICENSE](LICENSE)). Renamed from OmaFMail to MailNotifier
-> (plugin id `io.github.EchoGrav.mailnotifier`). Changes from upstream:
+> (plugin id `io.github.echograv.mailnotifier`). Changes from upstream:
 >
 > - The bar widget now hides itself entirely (zero width/height, not
 >   just visually inactive) when there's no unread mail and no error,
@@ -71,9 +71,9 @@ Install the plugin by linking this checkout into Omarchy's user plugin
 directory:
 
 ```bash
-ln -s "$PWD" ~/.config/omarchy/plugins/io.github.EchoGrav.mailnotifier
+ln -s "$PWD" ~/.config/omarchy/plugins/io.github.echograv.mailnotifier
 omarchy-shell shell rescanPlugins
-omarchy plugin enable io.github.EchoGrav.mailnotifier right
+omarchy plugin enable io.github.echograv.mailnotifier right
 ```
 
 ## Setup
@@ -96,7 +96,7 @@ omarchy plugin enable io.github.EchoGrav.mailnotifier right
 
    ```bash
    mkdir -p ~/.config/mailnotifier
-   cp ~/.config/omarchy/plugins/io.github.EchoGrav.mailnotifier/config.example.json \
+   cp ~/.config/omarchy/plugins/io.github.echograv.mailnotifier/config.example.json \
      ~/.config/mailnotifier/config.json
    ```
 
@@ -129,7 +129,7 @@ third-party plugin code before enabling it.
 ## Remove
 
 ```bash
-omarchy plugin remove io.github.EchoGrav.mailnotifier
+omarchy plugin remove io.github.echograv.mailnotifier
 ```
 
 Removal leaves your configuration, keyring entry, and local state intact.

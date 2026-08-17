@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "io.github.EchoGrav.mailnotifier",
+  "id": "io.github.echograv.mailnotifier",
   "name": "MailNotifier",
   "version": "0.1.0",
   "author": "EchoGrav (fork of OmaFMail by Keith)",

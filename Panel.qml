@@ -7,15 +7,15 @@ import "Model.js" as Model
 
 Panel {
   id: root
-  moduleName: "io.github.EchoGrav.mailnotifier"
-  ipcTarget: "io.github.EchoGrav.mailnotifier"
+  moduleName: "io.github.echograv.mailnotifier"
+  ipcTarget: "io.github.echograv.mailnotifier"
   manageIpc: false
 
   property var anchorItem: null
   property var hostWidget: null
 
   readonly property var mailService: bar && bar.shell
-    ? bar.shell.serviceFor("io.github.EchoGrav.mailnotifier")
+    ? bar.shell.serviceFor("io.github.echograv.mailnotifier")
     : null
   readonly property var rows: mailService ? mailService.messages : []
   readonly property int unreadCount: mailService ? mailService.unreadCount : 0

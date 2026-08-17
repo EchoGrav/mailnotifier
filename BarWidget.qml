@@ -5,7 +5,7 @@ import qs.Ui
 
 BarWidget {
   id: root
-  moduleName: "io.github.EchoGrav.mailnotifier"
+  moduleName: "io.github.echograv.mailnotifier"
 
   readonly property var mailService: bar && bar.shell
     ? bar.shell.serviceFor(root.moduleName)
