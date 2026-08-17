@@ -5,7 +5,7 @@ import qs.Ui
 
 BarWidget {
   id: root
-  moduleName: "io.github.keithnyc.omafmail"
+  moduleName: "io.github.EchoGrav.mailnotifier"
 
   readonly property var mailService: bar && bar.shell
     ? bar.shell.serviceFor(root.moduleName)
@@ -46,8 +46,11 @@ BarWidget {
     panelLoader.item.hostWidget = root
   }
 
-  implicitWidth: button.implicitWidth
-  implicitHeight: button.implicitHeight
+  implicitWidth: (root.unreadCount > 0 || root.hasError) ? button.implicitWidth : 0
+  implicitHeight: (root.unreadCount > 0 || root.hasError) ? button.implicitHeight : 0
+
+  visible: root.unreadCount > 0 || root.hasError
+  enabled: root.unreadCount > 0 || root.hasError
 
   onBarChanged: injectPanel()
 
@@ -80,7 +83,13 @@ BarWidget {
     anchors.fill: parent
     bar: root.bar
     text: root.labelText
-    active: root.unreadCount > 0 || root.hasError
+    
+    active: false
+    
+    foreground: root.hasError 
+      ? (Color.urgent || "#ff3b30") 
+      : (root.bar ? root.bar.foreground : "#ffffff")
+
     tooltipText: root.hasError
       ? (root.mailService && root.mailService.lastError ? root.mailService.lastError.message : "OmaFMail: connection error")
       : (root.unreadCount > 0

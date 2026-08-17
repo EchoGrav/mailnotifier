@@ -114,15 +114,40 @@ Item {
     stateFile.setText(JSON.stringify(root.statePayload(), null, 2) + "\n")
   }
 
+  readonly property string openMailClientScriptPath: manifest && manifest.__sourceDir
+    ? manifest.__sourceDir + "/scripts/open_mail_client.sh"
+    : ""
+
+  function openMailClient() {
+    if (root.openMailClientScriptPath === "") return
+    Quickshell.execDetached(["sh", root.openMailClientScriptPath])
+  }
+
   function sendNotification(title, body, urgency, glyph) {
-    Quickshell.execDetached([
+    if (notifyProcess.running) {
+      // A previous notification's click-listener is still waiting for
+      // input; don't stomp on it, just send this one without a click
+      // action rather than losing the earlier one's action handling.
+      Quickshell.execDetached([
+        "omarchy-notification-send",
+        "--app-name", "omafmail",
+        "--urgency", urgency,
+        "--glyph", glyph,
+        title,
+        body
+      ])
+      return
+    }
+    notifyProcess.command = [
       "omarchy-notification-send",
       "--app-name", "omafmail",
       "--urgency", urgency,
       "--glyph", glyph,
+      "--action", "default=Open",
       title,
       body
-    ])
+    ]
+    notifyProcess.running = true
   }
 
   function notifyNew(newMessages) {
@@ -229,6 +254,23 @@ Item {
         root.connectionState = "connecting"
         watcherProcess.running = true
       }
+    }
+  }
+
+  // --action implies --wait, so this process stays alive until the
+  // notification is clicked or dismissed, printing the chosen action
+  // name ("default" for a plain click) to stdout.
+  Process {
+    id: notifyProcess
+    running: false
+    command: []
+    stdout: SplitParser {
+      onRead: function(line) {
+        if (String(line).trim() === "default") root.openMailClient()
+      }
+    }
+    onExited: {
+      notifyProcess.running = false
     }
   }
 

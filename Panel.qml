@@ -7,15 +7,15 @@ import "Model.js" as Model
 
 Panel {
   id: root
-  moduleName: "io.github.keithnyc.omafmail"
-  ipcTarget: "io.github.keithnyc.omafmail"
+  moduleName: "io.github.EchoGrav.mailnotifier"
+  ipcTarget: "io.github.EchoGrav.mailnotifier"
   manageIpc: false
 
   property var anchorItem: null
   property var hostWidget: null
 
   readonly property var mailService: bar && bar.shell
-    ? bar.shell.serviceFor("io.github.keithnyc.omafmail")
+    ? bar.shell.serviceFor("io.github.EchoGrav.mailnotifier")
     : null
   readonly property var rows: mailService ? mailService.messages : []
   readonly property int unreadCount: mailService ? mailService.unreadCount : 0
@@ -31,8 +31,13 @@ Panel {
   }
 
   function openInbox() {
-    Quickshell.execDetached(["xdg-open", "https://app.fastmail.com/mail/Inbox"])
+    if (root.mailService && typeof root.mailService.openMailClient === "function") {
+      root.mailService.openMailClient()
+    } else {
+      Quickshell.execDetached(["xdg-open", "https://app.fastmail.com/mail/Inbox"])
+    }
   }
+
 
   component MessageRow: CursorSurface {
     id: card

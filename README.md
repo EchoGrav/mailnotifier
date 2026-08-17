@@ -1,6 +1,13 @@
-# OmaFMail
+# MailNotifier
 
-OmaFMail is an Omarchy shell plugin that watches a Fastmail (or other
+> This is a fork of [OmaFMail](https://github.com/keithnyc/omafmail) by
+> [Keith](https://github.com/keithnyc), originally licensed under the MIT
+> License (see [LICENSE](LICENSE)). Changes in this fork: the bar widget
+> now hides itself when there's nothing to show, opening a message opens
+> your system's default mail client's main window instead of a hardcoded
+> browser tab or app, and clicking a desktop notification does the same.
+
+MailNotifier is an Omarchy shell plugin that watches a Fastmail (or other
 IMAP) mailbox over a persistent IMAP IDLE connection and shows unread
 mail — sender, subject, and a text preview — in a native bar popup, with
 desktop notifications when new mail actually arrives.
@@ -8,8 +15,8 @@ desktop notifications when new mail actually arrives.
 It exists because leaving the Fastmail web app open in a background tab
 doesn't refresh the inbox until that tab has focus.
 
-![OmaFMail unread message popup](preview.png)
-![OmaFMail new-mail notification](preview-notification.png)
+![MailNotifier unread message popup](preview.png)
+![MailNotifier new-mail notification](preview-notification.png)
 
 ## Current features
 
@@ -26,15 +33,17 @@ doesn't refresh the inbox until that tab has focus.
 - Automatic reconnect with backoff on network errors; a slower backoff
   (5 min) on auth/config errors so a bad password doesn't hammer the
   server
-- Click a message to open Fastmail's inbox in your browser; right-click
-  the bar icon, or use the popup button, to reconnect immediately
+- Click a message, or click a desktop notification, to open your
+  system's default mail client (main window, not a compose window);
+  right-click the bar icon, or use the popup button, to reconnect
+  immediately
 
 ## Install
 
 Install directly from GitHub and enable the bar widget:
 
 ```bash
-omarchy plugin add https://github.com/keithnyc/omafmail.git --enable
+omarchy plugin add https://github.com/EchoGrav/mailnotifier.git --enable
 ```
 
 ## Install for local development
@@ -43,9 +52,9 @@ Install the plugin by linking this checkout into Omarchy's user plugin
 directory:
 
 ```bash
-ln -s "$PWD" ~/.config/omarchy/plugins/io.github.keithnyc.omafmail
+ln -s "$PWD" ~/.config/omarchy/plugins/io.github.EchoGrav.mailnotifier
 omarchy-shell shell rescanPlugins
-omarchy plugin enable io.github.keithnyc.omafmail right
+omarchy plugin enable io.github.EchoGrav.mailnotifier right
 ```
 
 ## Setup
@@ -57,7 +66,7 @@ omarchy plugin enable io.github.keithnyc.omafmail right
 2. Store it in the system keyring — nothing else reads or writes this:
 
    ```bash
-   secret-tool store --label="OmaFMail: you@fastmail.com" service omafmail account you@fastmail.com
+   secret-tool store --label="MailNotifier: you@fastmail.com" service omafmail account you@fastmail.com
    ```
 
    You'll be prompted to paste the app password. `secret-tool` needs a
@@ -68,7 +77,7 @@ omarchy plugin enable io.github.keithnyc.omafmail right
 
    ```bash
    mkdir -p ~/.config/omafmail
-   cp ~/.config/omarchy/plugins/io.github.keithnyc.omafmail/config.example.json \
+   cp ~/.config/omarchy/plugins/io.github.EchoGrav.mailnotifier/config.example.json \
      ~/.config/omafmail/config.json
    ```
 
@@ -78,7 +87,7 @@ omarchy plugin enable io.github.keithnyc.omafmail right
 
 ## Configuration
 
-OmaFMail watches `~/.config/omafmail/config.json` and reconnects
+MailNotifier watches `~/.config/omafmail/config.json` and reconnects
 automatically when it changes.
 
 - `account`: your Fastmail email address (also the `secret-tool` lookup key)
@@ -101,7 +110,7 @@ third-party plugin code before enabling it.
 ## Remove
 
 ```bash
-omarchy plugin remove io.github.keithnyc.omafmail
+omarchy plugin remove io.github.EchoGrav.mailnotifier
 ```
 
 Removal leaves your configuration, keyring entry, and local state intact.
@@ -114,7 +123,7 @@ secret-tool clear service omafmail account you@fastmail.com
 
 ## Privacy
 
-OmaFMail connects to your IMAP server directly from your computer.
+MailNotifier connects to your IMAP server directly from your computer.
 Configuration lives in `~/.config/omafmail/config.json` (no secrets);
 the app password lives only in your system keyring; a small state file
 recording which message IDs you've already seen (used to avoid
@@ -123,9 +132,12 @@ None of this belongs in this repository.
 
 ## Limitations
 
-- "Click a message" opens Fastmail's general inbox view, not a deep link
-  to that exact message — IMAP UIDs don't map to Fastmail's web message
-  IDs.
+- "Click a message" opens your default mail client's general inbox view,
+  not a deep link to that exact message — IMAP UIDs don't map cleanly to
+  any particular client's internal message IDs.
+- The default mail client is resolved via `xdg-mime` (the mailto: URI
+  handler). If no default is registered, or the app's `.desktop` file
+  can't be parsed, it falls back to opening Fastmail's web inbox.
 - The preview is the plain-text part of the message; HTML-only mail
   without a plain-text alternative may show a rough or empty snippet.
 
