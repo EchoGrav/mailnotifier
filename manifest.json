@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "author": "EchoGrav (fork of OmaFMail by Keith)",
   "license": "MIT",
-  "description": "Fastmail unread mail alerts and preview in the Omarchy bar",
+  "description": "Unread mail alerts and preview in the Omarchy bar. Fork of OmaFMail; changes listed on GitHub.",
   "kinds": [
     "service",
     "bar-widget"
@@ -17,7 +17,7 @@
   },
   "barWidget": {
     "displayName": "MailNotifier",
-    "description": "Unread Fastmail count with a sender/subject/preview popup",
+    "description": "Unread mail count with a sender/subject/preview popup",
     "category": "Network",
     "allowMultiple": false,
     "defaultSection": "right"
