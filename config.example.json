@@ -1,6 +1,6 @@
 {
-  "account": "you@fastmail.com",
-  "host": "imap.fastmail.com",
+  "account": "you@example.com",
+  "host": "imap.example.com",
   "port": 993,
   "mailbox": "INBOX",
   "secretService": "mailnotifier",
