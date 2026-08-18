@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "io.github.echograv.mailnotifier",
   "name": "MailNotifier",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "EchoGrav (fork of OmaFMail by Keith)",
   "license": "MIT",
   "description": "Unread mail alerts and preview in the Omarchy bar. Fork of OmaFMail; changes listed on GitHub.",
